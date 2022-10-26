@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
       include: [{ model: User }],
     });
     const posts = postData.map((post) => post.get({ plain: true }));
-
+    
     res.render('homepage', {
       posts,
       logged_in: req.session.logged_in
@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
 
 // Return page for a new post
 router.get('/post', withAuth, async (req, res) => {
-  res.render('create-post');
+  res.render('post');
 });
 
 // Get a single post
@@ -39,7 +39,7 @@ router.get('/post/:id', withAuth, async (req, res) => {
         {
           model: User,
           attributes: [
-            'username',
+            'name',
           ],
         },
         {
@@ -48,7 +48,7 @@ router.get('/post/:id', withAuth, async (req, res) => {
             {
               model: User,
               attributes: [
-                'username',
+                'name',
               ],
             },
           ],
@@ -58,7 +58,7 @@ router.get('/post/:id', withAuth, async (req, res) => {
 
     const post = postData.get({ plain: true });
     
-    res.render('single-post', { 
+    res.render('/post', { 
       post,
       logged_in: req.session.logged_in 
     });

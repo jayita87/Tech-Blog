@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { User } = require('../../models');
 
 //create account
+// Route is actually /api/users/
 router.post('/', async (req, res) => {
   try {
     const userData = await User.create(req.body);
@@ -11,6 +12,8 @@ router.post('/', async (req, res) => {
       req.session.logged_in = true;
 
       res.status(200).json(userData);
+//      res.redirect("/edit")
+  //    res.render('success', { userData })
     });
   } catch (err) {
     res.status(400).json(err);

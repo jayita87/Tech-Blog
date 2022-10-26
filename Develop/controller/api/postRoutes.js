@@ -29,6 +29,7 @@ router.get('/:id', async (req, res) => {
     }
 
     res.status(200).json(postData);
+    // res.render('post', { postData })
   } catch (err) {
     res.status(500).json(err);
   }
