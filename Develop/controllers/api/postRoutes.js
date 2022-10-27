@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Post } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-// Create a new post
+//API POST route for a new blog post to be added 
 router.post('/', withAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
@@ -16,26 +16,31 @@ router.post('/', withAuth, async (req, res) => {
   }
 });
 
-//Get post from a certain id(user)
-router.get('/:id', async (req, res) => {
+//API PUT route to update an existing blog post by ID 
+router.put('/:id', withAuth, async (req, res) => {
   try {
-    const postData = await Post.findAll({
-      
-    });
-
+    const postData = await Post.update (
+      {
+        title: req.body.title,
+        contents: req.body.contents,
+      },
+      {
+        where: {
+          id: req.params.id,
+        }
+      }
+    )
     if (!postData) {
-      res.status(404).json({ message: 'No project found with this id!' });
+      res.status(404).json({ message: 'No post found with this id!' });
       return;
     }
-
     res.status(200).json(postData);
-    // res.render('post', { postData })
-  } catch (err) {
+  }  catch (err) {
     res.status(500).json(err);
   }
-});
+})
 
-//delete post
+//API route to delete a blog post via ID
 router.delete('/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.destroy({
@@ -55,4 +60,5 @@ router.delete('/:id', withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 module.exports = router;
